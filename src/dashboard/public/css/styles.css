@@ -1,0 +1,23 @@
+/* Reset default styles */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* Set the font family to sans-serif */
+body {
+	font-family: Arial, sans-serif;
+}
+
+/* Set the background color to white */
+body {
+	background-color: #ffffff;
+}
+
+/* Set the text color to black */
+body {
+	color: #000000;
+}
+
+/* Add your custom styles here */

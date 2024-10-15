@@ -1,0 +1,21 @@
+{
+	"name": "nostrum",
+	"version": "0.0.1",
+	"description": "Nostrum: Latin for `Ours`",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon src/dashboard/server.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Mark Horton",
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "^3.1.7"
+	},
+	"dependencies": {
+		"express": "^4.21.1",
+		"handlebars": "^4.7.8"
+	}
+}

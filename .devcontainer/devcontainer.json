@@ -1,0 +1,38 @@
+{
+	"name": "Node.js",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+
+  // Use the root user in the devcontainer, this is not always recommended or
+  // necessary, but it is useful for the purpose of the scripts in this project.
+  "remoteUser": "root",
+
+  // Configure tool-specific properties.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "foxundermoon.shell-format",
+        "ahmadalli.vscode-nginx-conf"
+      ]
+    }
+  },
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "./init.dev.sh",
+
+  // Use 'postStartCommand' to run commands after the container is started.
+  // "postStartCommand": "pnpm add -g pnpm && pnpm install",
+  "postAttachCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && ./init.dev.sh",
+
+  // "initializeCommand": Having this set avoids the issue with devcontainer.json already exists error
+  "initializeCommand": "echo -e \"\\n\\nInitialising your development container ... please wait.\""
+}

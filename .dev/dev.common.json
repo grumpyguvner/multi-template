@@ -1,0 +1,19 @@
+[
+	{
+		"project": "template.base",
+		"branch": "main",
+		"files": [
+			{
+				"source": ".dev",
+				"destination": ".dev",
+				"options": { "recursive": true }
+			},
+			{
+				"source": ".githooks/",
+				"destination": ".githooks/"
+			},
+			".vscode/settings.json",
+			"init.dev.sh"
+		]
+	}
+]

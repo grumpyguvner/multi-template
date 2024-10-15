@@ -1,0 +1,31 @@
+# Local development data files
+/data/*
+
+# Log files
+.log
+logs/
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+cache/
+
+# Environment files
+.env
+.env.local
+local.env
+!.env.example
+
+# Package files
+node_modules/
+
+# Build files
+dist/
+
+# The docker compose files are created by the installation process
+/services-stack*.yml
+/portainer-stack.yml
+
+# MacOS
+.DS_Store

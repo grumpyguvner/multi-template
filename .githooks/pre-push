@@ -1,0 +1,36 @@
+#! /bin/bash
+
+# This file is owned by carmendata/swarm, any changes to be made to this file
+# should be made in that repo otherwise they will be overwritten.
+
+echo "Starting pre-push hook"
+
+# Abort if there are unstaged changes in the working directory
+if ! git diff --quiet; then
+    error_msg="Aborting push. You have unstaged changes in the working directory."
+    echo "$error_msg" >&2
+    exit 1
+fi
+
+# Abort if there are staged but uncommitted changes in the index
+if ! git diff --cached --quiet; then
+    error_msg="Aborting push. You have uncommitted changes in the index."
+    echo "$error_msg" >&2
+    exit 1
+fi
+
+# # Test if the version in package.json has been updated
+# if [ -z $(git diff --quiet HEAD package.json) ]; then
+#     error_msg="Aborting push. Package.json has not been updated, please update the version number."
+#     echo "$error_msg" >&2
+#     exit 1
+# fi
+
+# Abort if tests are failing
+if ! npm test; then
+    error_msg="Aborting push. You have failing tests."
+    echo "$error_msg" >&2
+    exit 1
+fi
+
+echo "Pre-push hook completed successfully."

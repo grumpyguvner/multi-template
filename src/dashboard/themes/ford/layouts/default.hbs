@@ -1,0 +1,22 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<title>Nostrum</title>
+		<link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
+		<link href="css/framework-styles.css" rel="stylesheet">		
+		<link href="css/override.css" rel="stylesheet" type="text/css">		
+	</head>
+
+	<body>
+        {{> navbar }}
+
+		<main class="container container-wrapper">
+            <div class="container__main-content"
+			{{{body}}}
+            </div>
+		</main>
+
+		{{> footer }}
+	</body>
+</html>
