@@ -24,7 +24,9 @@ const repoName = () => {
 			const originUrl = gitConfig.match(/(?<=url = )(.*)(?=\n)/)[0];
 			console.log(`Origin URL: ${originUrl}`);
 			// The repo name is the part of the URL after github.com: and before .git
-			currentProject = originUrl.match(/(?<=github.com:)(.*)(?=.git)/)[0];
+			currentProject = originUrl.match(
+				/(?<=github.com[:\/])(.*)(?=.git)/
+			)[0];
 			console.log(`Repo name: ${currentProject}`);
 			resolve(currentProject);
 		} catch (error) {
@@ -33,11 +35,14 @@ const repoName = () => {
 		return currentProject;
 	});
 };
-const CURRENT_PROJECT = await repoName().catch((error) => {
+try {
+	const CURRENT_PROJECT = await repoName();
+	console.log(`Current project: ${CURRENT_PROJECT}`);
+} catch (error) {
 	console.error(error);
 	exit(1);
-});
-console.log(`Current project: ${CURRENT_PROJECT}`);
+}
+
 console.log('Updating shared files ...');
 
 console.log(`Folder ${import.meta.dirname}`);
