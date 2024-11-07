@@ -14,6 +14,8 @@ copyingService.on('error', (error) => {
 	console.error(error);
 });
 
+let USE_HTTPS = false;
+
 const repoName = () => {
 	return new Promise((resolve, reject) => {
 		let currentProject;
@@ -28,6 +30,11 @@ const repoName = () => {
 				/(?<=github.com[:\/])(.*)(?=.git)/
 			)[0];
 			console.log(`Repo name: ${currentProject}`);
+			// If the URL starts with https://, use HTTPS
+			if (originUrl.startsWith('https://')) {
+				console.log(`Using HTTPS for cloning`);
+				USE_HTTPS = true;
+			}
 			resolve(currentProject);
 		} catch (error) {
 			reject(error);
@@ -99,7 +106,7 @@ const processItem = (item, file) => {
 		console.log(`Skipping files in current project ${CURRENT_PROJECT}`);
 		return;
 	} else {
-		cloningService.clone(item.project, item?.branch);
+		cloningService.clone(item.project, USE_HTTPS, item?.branch);
 		// Files is optional, default to an empty array
 		const files = item?.files ?? [];
 		// If files is not an array, convert it to an array
