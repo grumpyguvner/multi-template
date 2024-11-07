@@ -15,40 +15,7 @@ copyingService.on('error', (error) => {
 });
 
 let USE_HTTPS = false;
-
-const repoName = () => {
-	return new Promise((resolve, reject) => {
-		let currentProject;
-		try {
-			// Fetch this repo name from .git/config
-			const gitConfig = fs.readFileSync('.git/config', 'utf8');
-			// Get the line "url =" from the origin remote
-			const originUrl = gitConfig.match(/(?<=url = )(.*)(?=\n)/)[0];
-			console.log(`Origin URL: ${originUrl}`);
-			// The repo name is the part of the URL after github.com: and before .git
-			currentProject = originUrl.match(
-				/(?<=github.com[:\/])(.*)(?=.git)/
-			)[0];
-			console.log(`Repo name: ${currentProject}`);
-			// If the URL starts with https://, use HTTPS
-			if (originUrl.startsWith('https://')) {
-				console.log(`Using HTTPS for cloning`);
-				USE_HTTPS = true;
-			}
-			resolve(currentProject);
-		} catch (error) {
-			reject(error);
-		}
-		return currentProject;
-	});
-};
-try {
-	const CURRENT_PROJECT = await repoName();
-	console.log(`Current project: ${CURRENT_PROJECT}`);
-} catch (error) {
-	console.error(error);
-	exit(1);
-}
+let CURRENT_PROJECT = '';
 
 console.log('Updating shared files ...');
 
@@ -172,7 +139,41 @@ const mainProcess = async () => {
 	}
 };
 
-await mainProcess();
+const repoName = () => {
+	return new Promise((resolve, reject) => {
+		let currentProject;
+		try {
+			// Fetch this repo name from .git/config
+			const gitConfig = fs.readFileSync('.git/config', 'utf8');
+			// Get the line "url =" from the origin remote
+			const originUrl = gitConfig.match(/(?<=url = )(.*)(?=\n)/)[0];
+			console.log(`Origin URL: ${originUrl}`);
+			// The repo name is the part of the URL after github.com: and before .git
+			currentProject = originUrl.match(
+				/(?<=github.com[:\/])(.*)(?=.git)/
+			)[0];
+			console.log(`Repo name: ${currentProject}`);
+			// If the URL starts with https://, use HTTPS
+			if (originUrl.startsWith('https://')) {
+				console.log(`Using HTTPS for cloning`);
+				USE_HTTPS = true;
+			}
+			resolve(currentProject);
+		} catch (error) {
+			reject(error);
+		}
+		return currentProject;
+	});
+};
+repoName()
+	.then((projectName) => {
+		CURRENT_PROJECT = projectName;
+		console.log(`Current project: ${CURRENT_PROJECT}`);
+		mainProcess();
+	})
+	.catch((error) => {
+		console.error(error);
+	});
 
 while (!cloningService.allFinished()) {
 	console.log('Waiting for cloning to finish ...');
